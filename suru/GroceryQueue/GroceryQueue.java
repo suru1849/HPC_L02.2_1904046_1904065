@@ -4,8 +4,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class GroceryQueue {
+    @SuppressWarnings("unused")
     private int maxQueueSize;
-    private Queue<Integer>[] queueArray;
+    public Queue<Integer>[] queueArray;
     
     // Constructor
     @SuppressWarnings("unchecked")

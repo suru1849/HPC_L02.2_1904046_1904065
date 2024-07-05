@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class GroceryQueue {
-    @SuppressWarnings("unused")
-    private int maxQueueSize;
+    // Atributes
+    public int maxQueueSize;
     public Queue<Integer>[] queueArray;
     
     // Constructor
@@ -20,11 +20,4 @@ public class GroceryQueue {
         
     }
 
-
-    public void show(){
-        System.out.println(queueArray.length);
-        for(int i = 0; i < queueArray.length; i++){
-            System.out.println(queueArray[i].size());
-        }
-    }
 }

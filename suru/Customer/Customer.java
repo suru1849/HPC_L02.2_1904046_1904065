@@ -16,39 +16,32 @@ public class Customer {
 
     // Serve the customer
     public void serveCustomer(int queueNumber){
+        boolean ans = rel.tryLock();
+
+        System.out.println("from serving : " + ans);
         if(gq.queueArray[queueNumber].size() == 0){
-            System.out.println(queueNumber + " queue is empty.");
+            System.out.println(queueNumber + " is empty.");
             try {
-                Thread.sleep(2*1000);
+                Thread.sleep(1*1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else{
-            boolean ans = rel.tryLock();
-
-            if(ans){
-                System.out.println(queueNumber + " server is serving customer");
-                try {
-                    gq.queueArray[queueNumber].poll();
-                    
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    // unlock
-                    rel.unlock();
-                    try {
-                       // serve for 300 to 60 seconds
-                       long x = (long)Math.random()*(300-60+1) + 60;
-                       Thread.sleep(x*1000);
-                    } catch (Exception e) {
-                       e.printStackTrace();
-                    }
-
-                }
-            } else {
-                System.out.println(queueNumber + " is waiting.");
-            }
+            System.out.println(queueNumber + " is serving.");
+           
+            gq.queueArray[queueNumber].poll();
+             
+        
+            try {
+               // serve for 300 to 60 seconds
+               long x = (long)Math.random()*(300-60+1) + 60;
+               Thread.sleep(x*1000);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }     
         }
+        
+        rel.unlock();
     }
 
     // add customer to the queue
@@ -56,15 +49,10 @@ public class Customer {
         boolean ans = rel.tryLock();
 
         if(ans){
-            System.out.println("added customer");
             try {
                 int index = getLeastIndex();
-                if(index == gq.maxQueueSize){ 
-                    // wait for 10 seconds
-                    Thread.sleep(10*1000);                 
-                }else{
-                    gq.queueArray[index].add(1);
-                }
+                gq.queueArray[index].add(1);
+                System.out.println("added customer to : " + index);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -72,8 +60,8 @@ public class Customer {
                 rel.unlock();
                 try {
                   // wait for 60 to 20 seconds
-                  long x = (long)Math.random()*(60-20+1) + 20;
-                  Thread.sleep(x*1000);  
+                //   long x = (long)Math.random()*(40-20+1) + 20;
+                  Thread.sleep(2*1000);  
                 } catch (Exception e) {
                    e.printStackTrace();
                 }

@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         ReentrantLock rel =  new ReentrantLock();
-        GroceryQueue obj = new GroceryQueue(5, 10);
+        GroceryQueue obj = new GroceryQueue(3, 2);
         Customer obj1 = new Customer(obj,rel);
 
         // adder
@@ -19,7 +19,7 @@ public class Main {
         });
         
         // cashier
-        Thread[] cashier = new Thread[5];
+        Thread[] cashier = new Thread[3];
         for(int i = 0; i < cashier.length; i++){
             final int x = i;
             cashier[i] = new Thread(()->{
@@ -36,11 +36,12 @@ public class Main {
             cashier[i].start();
         }
 
+
         try {
             Thread.sleep(300*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        } 
 
         running = false;
 
